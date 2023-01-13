@@ -27,6 +27,17 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 
 ---
 
+# FEATURE
+
+npx nx g @nrwl/react:application
+npx nx g @nrwl/react:component
+npx nx g @nrwl/react:lib / library
+
+npx nx g @nrwl/workspace:lib
+
+--directiory=XXX
+--dry-run
+
 # ISSUE
 
 ### run test
@@ -42,3 +53,10 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 
 turns out: node version is too low
 use 16.15.0, works
+
+### dry-run
+
+Cannot install required package @nrwl/jest during a dry run. Run the generator without --dryRun, or install the package with "npm install -D @nrwl/jest@15.4.5" and try again.
+
+I think it's because I have no package @nrwl/jest,
+if I did, I should be able to run dry-run

@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@web/cart": ["cart/src/index.ts"],
-      "@web/shared/ui": ["shared/ui/src/index.ts"]
+      "@web/shared/ui": ["shared/ui/src/index.ts"],
+      "@web/shared/utils": ["shared/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
