@@ -1,3 +1,8 @@
+## First try nx demo
+
+This is a tutorial from nx
+and it's [React Standalone](https://nx.dev/getting-started/react-standalone-tutorial)
+
 # Web
 
 <a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
@@ -19,3 +24,21 @@ Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and 
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+---
+
+# ISSUE
+
+### run test
+
+```
+  ➜ web git:(main) ✗ npx nx test cart
+
+  > nx run cart:test
+
+  > NX Only file and data URLs are supported by the default ESM loader
+  > Pass --verbose to see the stacktrace.
+```
+
+turns out: node version is too low
+use 16.15.0, works
