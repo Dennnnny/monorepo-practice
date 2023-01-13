@@ -29,14 +29,33 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 
 # FEATURE
 
+### generate
+
 npx nx g @nrwl/react:application
 npx nx g @nrwl/react:component
+(-> npx nx g @nrwl/react:component input --project=shared-ui --export)
 npx nx g @nrwl/react:lib / library
 
 npx nx g @nrwl/workspace:lib
 
 --directiory=XXX
 --dry-run
+
+- see tools
+  npx nx list @nrwl/react
+
+- storybook
+  npx nx @nrwl/react:storybook-configuration
+  npx nx @nrwl/react:component-story
+  (-> npx nx g @nrwl/react:stories --project=shared-ui)
+  npx nx @nrwl/react:story
+
+  flag for ts
+  --tsConfiguration=true
+
+### graph
+
+npx nx graph
 
 # ISSUE
 
