@@ -1,0 +1,57 @@
+{
+  "name": "invosdata",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./invosdata/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/invosdata"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "invosdata:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "invosdata:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "invosdata:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/invosdata"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../coverage/invosdata"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./invosdata/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
