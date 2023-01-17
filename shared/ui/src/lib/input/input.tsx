@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 /* eslint-disable-next-line */
@@ -8,9 +9,14 @@ const StyledInput = styled.div`
 `;
 
 export function Input(props: InputProps) {
+  const [value, setValue] = useState<string>('');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValue(value);
+  };
   return (
     <StyledInput>
-      <h1>Welcome to Input!</h1>
+      <input value={value} onChange={handleChange} />
     </StyledInput>
   );
 }

@@ -36,7 +36,7 @@ npx nx g @nrwl/react:component
 (-> npx nx g @nrwl/react:component input --project=shared-ui --export)
 npx nx g @nrwl/react:lib / library
 
-npx nx g @nrwl/workspace:lib
+npx nx g @nrwl/workspace:lib --buildable
 
 --directiory=XXX
 --dry-run
@@ -79,3 +79,50 @@ Cannot install required package @nrwl/jest during a dry run. Run the generator w
 
 I think it's because I have no package @nrwl/jest,
 if I did, I should be able to run dry-run
+
+### Import
+
+Buildable libraries cannot import or export from non-buildable libraries
+
+=>
+在建立 library 時 多帶一個 flag --buildable
+
+```json
+// package.json
+{
+  "name": "@web/shared/utils",
+  "version": "0.0.1"
+}
+```
+
+```json
+// in project.json
+"build": {
+  "executor": "@nrwl/js:tsc",
+    "outputs": ["{options.outputPath}"],
+    "options": {
+      "outputPath": "dist/shared/utils",
+      "main": "shared/utils/src/index.ts",
+      "tsConfig": "shared/utils/tsconfig.lib.json",
+      "assets": ["shared/utils/*.md"]
+    }
+},
+```
+
+---
+
+### Understand the deploy flow
+
+1. in GCP Cloub build, setting configuration
+2. make cloudbuild yaml
+3. run build, building image
+4. connect to k8s, let it know where to find this image
+
+=>
+to try it on github!!!
+
+### Input tsx
+
+ChangEvent<HTMLInputElement> : e.target.value
+
+FormEvent<HTMLInputElement> : e.currentTarget.value

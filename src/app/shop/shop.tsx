@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Banner } from '@web/shared/ui';
+import { Banner, Input } from '@web/shared/ui';
 import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
@@ -14,6 +14,7 @@ export function Shop(props: ShopProps) {
     <StyledShop>
       <h1>Welcome to Shop!</h1>
       <Banner text="this is shop" />
+      <Input />
       <Link to="/cart">View Cart</Link>
     </StyledShop>
   );
