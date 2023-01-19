@@ -17,7 +17,7 @@ export function App() {
           element={
             <div>
               <Input />
-              <Link to="/page-2">Click here for page 2.</Link>
+              <Link to="/page-2">Click here for page 2.5</Link>
             </div>
           }
         />

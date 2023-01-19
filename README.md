@@ -126,3 +126,29 @@ to try it on github!!!
 ChangEvent<HTMLInputElement> : e.target.value
 
 FormEvent<HTMLInputElement> : e.currentTarget.value
+
+### run develope error...
+
+when npx nx serve
+NX Cannot find module 'node:path'
+this error...
+because node version 14 cannot use it
+change to 16 fixed
+
+to run another application:
+npx nx serve [project-name]
+
+### Dockerfile
+
+1. add .dockerignore
+2. build Dockerfile
+   -> dockerfile is okay~
+
+#### Issue of run docker image
+
+-> because of ip connection something
+so I have a trouble in run image
+after change the cmd to " nx serve --host=0:0:0:0 "
+it works... thanks Devin 🙏
+
+I think I can go on with CI
