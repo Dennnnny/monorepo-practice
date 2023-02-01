@@ -20,8 +20,8 @@ jobs:
       #   with:
       #     node-version: 16.15.0
 
+      - uses: nrwl/nx-set-shas@v3
       - name: Install dependencies
-        uses: nrwl/nx-set-shas@v3
         run: npm ci
 
       - name: Run affected tests
