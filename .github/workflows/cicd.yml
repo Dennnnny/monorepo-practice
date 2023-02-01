@@ -12,17 +12,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
         with:
-          node-version: 16.15.0
+          fetch-depth: 0
+
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 16.15.0
 
       - name: Install dependencies
+        uses: nrwl/nx-set-shas@v3
         run: npm ci
 
       - name: Run affected tests
-        run: npx nx affected:test --base=refs/heads/main
+        run: npx nx affected:test
 
       - name: Build and push Docker image
         if: success()
