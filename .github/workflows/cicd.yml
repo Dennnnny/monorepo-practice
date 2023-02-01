@@ -36,16 +36,16 @@ jobs:
           DOCKER_REGISTRY: denny1215z
           DOCKER_AUTH: ${{ secrets.DOCKER_REGISTRY_AUTH }}
 
-      - name: Deploy to GKE
-        if: success()
-        uses: GoogleCloudPlatform/github-actions/gke-deploy
-        with:
-          cluster-name: monorepo-testing-001
-          service-name: my-service
-          image-url: gcr.io/${GCR_PROJECT_ID}/mono-app
-          namespace: default
-          wait-for-rollout: true
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          CLOUDSDK_COMPUTE_ZONE: asia-east1-a
-          CLOUDSDK_CORE_PROJECT: ${GCR_PROJECT_ID}
+      # - name: Deploy to GKE
+      #   if: success()
+      #   uses: GoogleCloudPlatform/github-actions/gke-deploy
+      #   with:
+      #     cluster-name: monorepo-testing-001
+      #     service-name: my-service
+      #     image-url: gcr.io/${GCR_PROJECT_ID}/mono-app
+      #     namespace: default
+      #     wait-for-rollout: true
+      #   env:
+      #     GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      #     CLOUDSDK_COMPUTE_ZONE: asia-east1-a
+      #     CLOUDSDK_CORE_PROJECT: ${GCR_PROJECT_ID}
