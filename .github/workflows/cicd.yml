@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Run affected tests
-        run: npx nx affected:test --base=origin/main
+        run: npx nx affected:test --base=refs/heads/main
 
       - name: Build and push Docker image
         if: success()
