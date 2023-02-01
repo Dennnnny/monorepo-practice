@@ -36,8 +36,8 @@ jobs:
           tags: gcr.io/${GCR_PROJECT_ID}/mono-app
         env:
           GCR_PROJECT_ID: ${{ secrets.GCR_PROJECT_ID }}
-          DOCKER_REGISTRY: denny1215z
-          DOCKER_AUTH: ${{ secrets.DOCKER_REGISTRY_AUTH }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       # - name: Deploy to GKE
       #   if: success()
