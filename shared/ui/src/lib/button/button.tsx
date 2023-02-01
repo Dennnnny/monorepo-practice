@@ -10,7 +10,7 @@ const StyledButton = styled.div`
 export function Button(props: ButtonProps) {
   return (
     <StyledButton>
-      <h1>Welcome to Button!</h1>
+      <h1>this is a Button!</h1>
     </StyledButton>
   );
 }

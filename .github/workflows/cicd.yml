@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy to GKE
         if: success()
-        uses: GoogleCloudPlatform/github-actions/gke-deploy@v4
+        uses: GoogleCloudPlatform/github-actions/gke-deploy@v3
         with:
           cluster-name: monorepo-testing-001
           service-name: my-service
