@@ -18,30 +18,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.15.0
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 16.15.0
 
-      - uses: nrwl/nx-set-shas@v3
-      - name: Install dependencies
-        run: npm ci
+      # - uses: nrwl/nx-set-shas@v3
+      # - name: Install dependencies
+      #   run: npm ci
 
-      - name: Run affected tests
-        run: npx nx affected:test
+      # - name: Run affected tests
+      #   run: npx nx affected:test
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2
 
       # Environment variables available to all jobs and steps in this workflow
 
       - name: Log some GCR_KEY
-        run: echo $GCR_KEY $PROJECT_NAME $IMAGE
+        run: echo $GCR_KEY $PROJECT_NAME $IMAGE ${{ secrets.GCR_KEY }} ${{ secrets.GCR_PROJECT_ID }}
       # Setup gcloud CLI
       # - name: 'auth'
       #   uses: 'google-github-actions/auth@v0'
