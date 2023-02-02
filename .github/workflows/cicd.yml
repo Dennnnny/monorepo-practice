@@ -16,6 +16,7 @@ env:
   PROJECT_NAME: ${{ secrets.GCR_PROJECT_ID }}
   GCR_KEY: ${{ secrets.GCR_KEY }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  TESTER: ${{secrets.TESTER}}
 
 jobs:
   build:
@@ -30,6 +31,7 @@ jobs:
           echo "DOCKER_USERNAME Key: ${DOCKER_USERNAME}"
           echo "GCR_KEY Token: ${GCR_KEY}"
           echo "IMAGE::" ${IMAGE}
+          echo "TESTER::" ${TESTER}
 
         # - uses: nrwl/nx-set-shas@v3
         # - name: Install dependencies
