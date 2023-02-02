@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - 'app'
+env:
+  GITHUB_SHA: ${{github.sha}}
+  GITHUB_REF: ${{github.ref}}
+  IMAGE: monorepo
+  REGISTRY_HOSTNAME: gcr.io
+  IMAGE_NAME: monorepo-helloworld
+  PROJECT_NAME: ${{ secrets.GCR_PROJECT_ID }}
 
 jobs:
   build:
@@ -30,18 +37,43 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Building and pushing the image
-        # uses: ./
-        uses: RafikFarhad/push-to-gcr-github-action@v5-beta # <- use this on your workflow
+      # Environment variables available to all jobs and steps in this workflow
+
+      - name: 'Setup, Build, and Publish'
+        runs-on: 'ubuntu-latest'
+        steps:
+
+      # Setup gcloud CLI
+      - name: 'auth'
+        uses: 'google-github-actions/auth@v0'
         with:
-          gcloud_service_key: ${ secrets.GOOGLE_APPLICATION_CREDENTIALS } # <- not needed when used with google-github-actions/auth@v0
-          registry: gcr.io
-          project_id: ${ secrets.GCR_PROJECT_ID }
-          image_name: mono-test
-          image_tag: monorepo
-          dockerfile: ./
-          context: ./
-          target: build
+          credentials_json: '${{secrets.GCR_KEY}}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - name: 'Use gcloud CLI'
+        run: |
+          # Set up docker to authenticate
+          # via gcloud command-line tool.
+          gcloud auth configure-docker
+      # Build the Docker image
+      - name: 'Build'
+        run: |
+          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+          echo $TAG
+          docker build -t "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" \
+            --build-arg GITHUB_SHA="$GITHUB_SHA" \
+            --build-arg GITHUB_REF="$GITHUB_REF" .
+      # Push the Docker image to Google Container Registry
+      - name: 'Publish'
+        run: |
+          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+          echo $TAG
+          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG"
+          docker tag "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
+          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
 
       # - name: Build and push Docker image
       #   if: success()
