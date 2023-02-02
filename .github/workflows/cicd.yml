@@ -11,6 +11,7 @@ env:
   REGISTRY_HOSTNAME: gcr.io
   IMAGE_NAME: monorepo-helloworld
   PROJECT_NAME: ${{ secrets.GCR_PROJECT_ID }}
+  GCR_KEY: ${{ secrets.GCR_KEY }}
 
 jobs:
   build:
@@ -39,39 +40,39 @@ jobs:
 
       # Environment variables available to all jobs and steps in this workflow
 
+      - name: Log some GCR_KEY
+        run: echo $GCR_KEY $PROJECT_NAME $IMAGE
       # Setup gcloud CLI
-      - name: 'auth'
-        uses: 'google-github-actions/auth@v0'
-        with:
-          credentials_json: ${GCR_KEY}
-        env:
-          GCR_KEY: ${{ secrets.GCR_KEY }}
+      # - name: 'auth'
+      #   uses: 'google-github-actions/auth@v0'
+      #   with:
+      #     credentials_json: ${GCR_KEY}
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+      # - name: 'Set up Cloud SDK'
+      #   uses: 'google-github-actions/setup-gcloud@v0'
 
-      # Configure docker to use the gcloud command-line tool as a credential helper
-      - name: 'Use gcloud CLI'
-        run: |
-          # Set up docker to authenticate
-          # via gcloud command-line tool.
-          gcloud auth configure-docker
-      # Build the Docker image
-      - name: 'Build'
-        run: |
-          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
-          echo $TAG
-          docker build -t "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" \
-            --build-arg GITHUB_SHA="$GITHUB_SHA" \
-            --build-arg GITHUB_REF="$GITHUB_REF" .
-      # Push the Docker image to Google Container Registry
-      - name: 'Publish'
-        run: |
-          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
-          echo $TAG
-          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG"
-          docker tag "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
-          docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
+      # # Configure docker to use the gcloud command-line tool as a credential helper
+      # - name: 'Use gcloud CLI'
+      #   run: |
+      #     # Set up docker to authenticate
+      #     # via gcloud command-line tool.
+      #     gcloud auth configure-docker
+      # # Build the Docker image
+      # - name: 'Build'
+      #   run: |
+      #     export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+      #     echo $TAG
+      #     docker build -t "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" \
+      #       --build-arg GITHUB_SHA="$GITHUB_SHA" \
+      #       --build-arg GITHUB_REF="$GITHUB_REF" .
+      # # Push the Docker image to Google Container Registry
+      # - name: 'Publish'
+      #   run: |
+      #     export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+      #     echo $TAG
+      #     docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG"
+      #     docker tag "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
+      #     docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
 
       # - name: Build and push Docker image
       #   if: success()
