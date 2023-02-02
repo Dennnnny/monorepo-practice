@@ -2,8 +2,8 @@ name: CI/CD
 
 on:
   push:
-    tags:
-      - 'app'
+    branches:
+      - main
 
 env:
   # API_KEY: ${{ secrets.API_KEY }}
