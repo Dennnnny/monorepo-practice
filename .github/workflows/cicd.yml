@@ -4,7 +4,10 @@ on:
   push:
     tags:
       - 'app'
+
 env:
+  # API_KEY: ${{ secrets.API_KEY }}
+  # SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
   GITHUB_SHA: ${{github.sha}}
   GITHUB_REF: ${{github.ref}}
   IMAGE: monorepo
@@ -19,15 +22,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.15.0
+    - name: Print Github secrets
+      run: |
+        echo "DOCKER_USERNAME Key: ${DOCKER_USERNAME}"
+        echo "GCR_KEY Token: ${GCR_KEY}"
+        echo "IMAGE::" ${IMAGE}
+
 
       # - uses: nrwl/nx-set-shas@v3
       # - name: Install dependencies
