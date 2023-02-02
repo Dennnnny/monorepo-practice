@@ -36,7 +36,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: asia.gcr.io/${GCR_PROJECT_ID}/mono-app
+          tags: asia.gcr.io/${GCR_PROJECT_ID}/gcf/asia-east1/mono-app
         env:
           GCR_PROJECT_ID: ${{ secrets.GCR_PROJECT_ID }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
