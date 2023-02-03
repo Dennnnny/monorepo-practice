@@ -40,7 +40,7 @@ jobs:
       #   with:
       #     push: true
       #     tags: gcr.io/${{ secrets.GCR_PROJECT_ID }}/mono-app
-      - uses: Industrial/push-docker-gcr
+      - uses: Industrial/push-docker-gcr@latest
         with:
           docker_image_name: monorepo
           docker_image_tag: latest
