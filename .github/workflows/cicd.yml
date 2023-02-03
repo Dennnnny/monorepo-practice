@@ -11,7 +11,7 @@ env:
   IMAGE: 'node:16.15.0'
   REGISTRY_HOSTNAME: 'gcr.io'
   IMAGE_NAME: 'monorepoo'
-  PROJECT_NAME: ${{GCR_PROJECT_ID}}
+  PROJECT_NAME: ${{secrets.GCR_PROJECT_ID}}
 
 jobs:
   setup-build-publish-deploy:
