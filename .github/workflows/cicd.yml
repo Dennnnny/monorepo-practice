@@ -35,11 +35,19 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push
-        uses: docker/build-push-action@v4
+      # - name: Build and push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: gcr.io/${{ secrets.GCR_PROJECT_ID }}/mono-app
+      - uses: Industrial/push-docker-gcr
         with:
-          push: true
-          tags: gcr.io/${{ secrets.GCR_PROJECT_ID }}/mono-app
+          docker_image_name: monorepo
+          docker_image_tag: latest
+          docker_context: .
+          gcr_host: gcr.io
+          gcr_project_id: ${{ secrets.GCR_PROJECT_ID }}
+          gcr_service_key: ${{ secrets.GCR_KEY }}
 
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v2
