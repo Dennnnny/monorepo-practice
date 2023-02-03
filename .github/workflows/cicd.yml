@@ -5,6 +5,10 @@ on:
     tags:
       - 'app'
 
+stages:
+  - build
+  - deploy
+
 env:
   GITHUB_SHA: ${{github.sha}}
   GITHUB_REF: ${{github.ref}}
@@ -12,9 +16,14 @@ env:
   REGISTRY_HOSTNAME: 'gcr.io'
   IMAGE_NAME: 'monorepoo'
   PROJECT_NAME: ${{secrets.GCR_PROJECT_ID}}
+  CLUSTER_NAME: 'monorepo-testing-001'
+  ZONE: 'asia-east1'
+  CONTAINER_NAME: 'k8s-container'
+  DEPLOYMENT_NAME: 'k8s-deployment'
 
 jobs:
   setup-build-publish-deploy:
+    stage: build
     name: 'Setup, Build, and Publish'
     runs-on: 'ubuntu-latest'
     steps:
@@ -52,7 +61,18 @@ jobs:
           docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG"
           docker tag "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":"$TAG" "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
           docker push "$REGISTRY_HOSTNAME"/"$PROJECT_NAME"/"$IMAGE_NAME":latest-"$TAG"
-
+jobs:
+  deploy to GKE:
+    stage: deploy
+    script:
+    - echo "$GCLOUD_SERVICE_KEY" | base64 --decode -i > service-key.json
+    - gcloud auth activate-service-account --key-file service-key.json
+    - gcloud config set project ${{secrets.GCR_PROJECT_ID}}
+    - gcloud config set compute/zone ${ZONE}
+    - gcloud container clusters get-credentials ${CLUSTER_NAME}
+    - kubectl config set-context gke_${{secrets.GCR_PROJECT_ID}}_${ZONE}_${CLUSTER_NAME}
+    - kubectl config use-context gke_${{secrets.GCR_PROJECT_ID}}_${ZONE}_${CLUSTER_NAME}
+    - kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=gcr.io/${{secrets.GCR_PROJECT_ID}}/${IMAGE_NAME}:$CI_COMMIT_SHA
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
